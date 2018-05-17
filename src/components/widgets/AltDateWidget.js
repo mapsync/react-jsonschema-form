@@ -34,7 +34,6 @@ function DateElement(props) {
     <SelectWidget
       schema={{ type: "integer" }}
       id={id}
-      className="form-control"
       options={{ enumOptions: rangeOptions(range[0], range[1]) }}
       placeholder={type}
       value={value}
@@ -127,9 +126,9 @@ class AltDateWidget extends Component {
   render() {
     const { id, disabled, readonly, autofocus, registry, onBlur } = this.props;
     return (
-      <ul className="list-inline">
+      <div className="columns col-gapless">
         {this.dateElementProps.map((elemProps, i) => (
-          <li key={i}>
+          <div className="column col-1">
             <DateElement
               rootId={id}
               select={this.onChange}
@@ -140,22 +139,20 @@ class AltDateWidget extends Component {
               onBlur={onBlur}
               autofocus={autofocus && i === 0}
             />
-          </li>
+          </div>
         ))}
-        <li>
-          <a href="#" className="btn btn-info btn-now" onClick={this.setNow}>
+        <div className="column col-2 col-mx-auto">
+          <a href="#" className="btn" onClick={this.setNow}>
             Now
           </a>
-        </li>
-        <li>
           <a
             href="#"
-            className="btn btn-warning btn-clear"
+            className="btn btn-link"
             onClick={this.clear}>
             Clear
           </a>
-        </li>
-      </ul>
+        </div>
+      </div>
     );
   }
 }

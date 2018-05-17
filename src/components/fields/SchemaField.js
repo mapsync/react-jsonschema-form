@@ -54,10 +54,10 @@ function Label(props) {
     return <div />;
   }
   return (
-    <label className="control-label" htmlFor={id}>
-      {label}
-      {required && <span className="required">{REQUIRED_FIELD_SYMBOL}</span>}
-    </label>
+      <label className="form-label d-inline-block" htmlFor={id}>
+        {label}
+        {required && <span className="required">{REQUIRED_FIELD_SYMBOL}</span>}
+      </label>
   );
 }
 
@@ -76,21 +76,12 @@ function Help(props) {
 function ErrorList(props) {
   const { errors = [] } = props;
   if (errors.length === 0) {
-    return <div />;
+    return <span />;
   }
   return (
-    <div>
-      <p />
-      <ul className="error-detail bs-callout bs-callout-info">
-        {errors.map((error, index) => {
-          return (
-            <li className="text-danger" key={index}>
-              {error}
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <span className="chip text-center tooltip tooltip-right bg-error ml-1 pt-1 float-right" data-tooltip={errors.join('\n')}>
+      <i className="icon icon-cross"></i>
+    </span>
   );
 }
 
@@ -111,15 +102,48 @@ function DefaultTemplate(props) {
     return children;
   }
 
-  return (
-    <div className={classNames}>
-      {displayLabel && <Label label={label} required={required} id={id} />}
-      {displayLabel && description ? description : null}
-      {children}
-      {errors}
-      {help}
-    </div>
-  );
+  if (props.altArray) {
+    return (
+      <div className={classNames}>
+        <div className="column col-3">
+          {displayLabel && <Label label={label} required={required} id={id} />}
+          {displayLabel && description ? description : null}
+          {errors}
+        </div>
+        <div className="column col-9">
+          {children}
+        </div>
+      </div>
+    );
+  }
+  if (props.schema.type === "array" || props.schema.type === "object" || props.hasToolbar) {
+    return (
+      <div className={classNames}>
+        <div className="column col-12">
+          {displayLabel && <Label label={label} required={required} id={id} />}
+          {displayLabel && description ? description : null}
+          {errors}
+        </div>
+        <div className="column col-12">
+          {children}
+        </div>
+      </div>
+    );
+  }
+  else {
+    return (
+      <div className={classNames}>
+        <div className="column col-3">
+          {displayLabel && <Label label={label} required={required} id={id} />}
+          {displayLabel && description ? description : null}
+          {errors}
+        </div>
+        <div className="column col-9">
+          {children}
+        </div>
+      </div>
+    );
+  }
 }
 
 if (process.env.NODE_ENV !== "production") {
@@ -185,37 +209,39 @@ function SchemaFieldRender(props) {
 
   const uiOptions = getUiOptions(uiSchema);
   let { label: displayLabel = true } = uiOptions;
-  if (schema.type === "array") {
-    displayLabel =
-      isMultiSelect(schema, definitions) ||
-      isFilesArray(schema, uiSchema, definitions);
+  const altArray = isMultiSelect(schema, definitions) || isFilesArray(schema, uiSchema, definitions);
+  if (altArray) {
+    displayLabel = true;
   }
-  if (schema.type === "object") {
+  else if (schema.type === "array") {
     displayLabel = false;
   }
-  if (schema.type === "boolean" && !uiSchema["ui:widget"]) {
+  else if (schema.type === "object") {
     displayLabel = false;
+  }
+  else if (schema.type === "boolean" && !uiSchema["ui:widget"]) {
+    displayLabel = true;
   }
   if (uiSchema["ui:field"]) {
     displayLabel = false;
   }
-
+console.log(props);
   const { __errors, ...fieldErrorSchema } = errorSchema;
 
   // See #439: uiSchema: Don't pass consumed class names to child components
   const field = (
-    <FieldComponent
-      {...props}
-      idSchema={idSchema}
-      schema={schema}
-      uiSchema={{ ...uiSchema, classNames: undefined }}
-      disabled={disabled}
-      readonly={readonly}
-      autofocus={autofocus}
-      errorSchema={fieldErrorSchema}
-      formContext={formContext}
-      rawErrors={__errors}
-    />
+      <FieldComponent
+        {...props}
+        idSchema={idSchema}
+        schema={schema}
+        uiSchema={{ ...uiSchema, classNames: undefined }}
+        disabled={disabled}
+        readonly={readonly}
+        autofocus={autofocus}
+        errorSchema={fieldErrorSchema}
+        formContext={formContext}
+        rawErrors={__errors}
+      />
   );
 
   const { type } = schema;
@@ -264,6 +290,7 @@ function SchemaFieldRender(props) {
     fields,
     schema,
     uiSchema,
+    altArray
   };
 
   return <FieldTemplate {...fieldProps}>{field}</FieldTemplate>;

@@ -13,7 +13,7 @@ function RangeWidget(props) {
   } = props;
   return (
     <div className="field-range-wrapper">
-      <BaseInput type="range" {...props} {...rangeSpec(schema)} />
+      <BaseInput className="slider" type="range" {...props} {...rangeSpec(schema)} />
       <span className="range-view">{value}</span>
     </div>
   );

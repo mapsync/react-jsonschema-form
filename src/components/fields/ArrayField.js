@@ -16,6 +16,8 @@ import {
   getDefaultRegistry,
 } from "../../utils";
 
+const REQUIRED_FIELD_SYMBOL = "*";
+
 function ArrayFieldTitle({ TitleField, idSchema, title, required }) {
   if (!title) {
     // See #312: Ensure compatibility with old versions of React.
@@ -39,9 +41,9 @@ function IconBtn(props) {
   return (
     <button
       type="button"
-      className={`btn btn-${type} ${className}`}
+      className={`btn btn-link ${className}`}
       {...otherProps}>
-      <i className={`glyphicon glyphicon-${icon}`} />
+      <i className={`icon icon-${icon}`} />
     </button>
   );
 }
@@ -54,24 +56,21 @@ function DefaultArrayItem(props) {
     paddingRight: 6,
     fontWeight: "bold",
   };
+
   return (
     <div key={props.index} className={props.className}>
-      <div className={props.hasToolbar ? "col-xs-9" : "col-xs-12"}>
+      <div className={props.hasToolbar ? "column col-10 col-mx-auto" : "column col-12"}>
         {props.children}
       </div>
 
       {props.hasToolbar && (
-        <div className="col-xs-3 array-item-toolbox">
+        <div className="column col-1 array-item-toolbox">
           <div
-            className="btn-group"
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-            }}>
+            className="btn-group">
             {(props.hasMoveUp || props.hasMoveDown) && (
               <IconBtn
                 icon="arrow-up"
-                className="array-item-move-up"
+                className="array-item-move-up p-2 ml-2 mr-2"
                 tabIndex="-1"
                 style={btnStyle}
                 disabled={props.disabled || props.readonly || !props.hasMoveUp}
@@ -82,7 +81,7 @@ function DefaultArrayItem(props) {
             {(props.hasMoveUp || props.hasMoveDown) && (
               <IconBtn
                 icon="arrow-down"
-                className="array-item-move-down"
+                className="array-item-move-down p-2 ml-2 mr-2"
                 tabIndex="-1"
                 style={btnStyle}
                 disabled={
@@ -95,8 +94,8 @@ function DefaultArrayItem(props) {
             {props.hasRemove && (
               <IconBtn
                 type="danger"
-                icon="remove"
-                className="array-item-remove"
+                icon="cross"
+                className="array-item-remove p-2 ml-2 mr-2"
                 tabIndex="-1"
                 style={btnStyle}
                 disabled={props.disabled || props.readonly}
@@ -112,14 +111,25 @@ function DefaultArrayItem(props) {
 
 function DefaultFixedArrayFieldTemplate(props) {
   return (
-    <fieldset className={props.className}>
-      <ArrayFieldTitle
-        key={`array-field-title-${props.idSchema.$id}`}
-        TitleField={props.TitleField}
-        idSchema={props.idSchema}
-        title={props.uiSchema["ui:title"] || props.title}
-        required={props.required}
-      />
+    <div className={props.className}>
+
+      <div className="columns">
+        <div className="column col-3">
+        </div>
+        <div className="column col-9">
+          <label className="form-label d-inline-block" htmlFor={props.idSchema.$id}>
+            {props.title}
+            {props.required && <span className="required">{REQUIRED_FIELD_SYMBOL}</span>}
+          </label>
+
+          {props.canAdd && (
+            <AddButton
+              onClick={props.onAddClick}
+              disabled={props.disabled || props.readonly}
+            />
+          )}
+        </div>
+      </div>
 
       {(props.uiSchema["ui:description"] || props.schema.description) && (
         <div
@@ -135,26 +145,31 @@ function DefaultFixedArrayFieldTemplate(props) {
         {props.items && props.items.map(DefaultArrayItem)}
       </div>
 
-      {props.canAdd && (
-        <AddButton
-          onClick={props.onAddClick}
-          disabled={props.disabled || props.readonly}
-        />
-      )}
-    </fieldset>
+      
+    </div>
   );
 }
 
 function DefaultNormalArrayFieldTemplate(props) {
   return (
-    <fieldset className={props.className}>
-      <ArrayFieldTitle
-        key={`array-field-title-${props.idSchema.$id}`}
-        TitleField={props.TitleField}
-        idSchema={props.idSchema}
-        title={props.uiSchema["ui:title"] || props.title}
-        required={props.required}
-      />
+    <div className={`${props.className}`}>
+      <div className="columns">
+        <div className="column col-3">
+        </div>
+        <div className="column col-9">
+          <label className="form-label d-inline-block" htmlFor={props.idSchema.$id}>
+            {props.title}
+            {props.required && <span className="required">{REQUIRED_FIELD_SYMBOL}</span>}
+          </label>
+
+          {props.canAdd && (
+            <AddButton
+              onClick={props.onAddClick}
+              disabled={props.disabled || props.readonly}
+            />
+          )}
+        </div>
+      </div>
 
       {(props.uiSchema["ui:description"] || props.schema.description) && (
         <ArrayFieldDescription
@@ -173,13 +188,8 @@ function DefaultNormalArrayFieldTemplate(props) {
         {props.items && props.items.map(p => DefaultArrayItem(p))}
       </div>
 
-      {props.canAdd && (
-        <AddButton
-          onClick={props.onAddClick}
-          disabled={props.disabled || props.readonly}
-        />
-      )}
-    </fieldset>
+
+    </div>
   );
 }
 
@@ -653,7 +663,7 @@ class ArrayField extends Component {
           rawErrors={rawErrors}
         />
       ),
-      className: "array-item",
+      className: "array-item columns",
       disabled,
       hasToolbar: has.toolbar,
       hasMoveUp: has.moveUp,
@@ -669,18 +679,14 @@ class ArrayField extends Component {
 
 function AddButton({ onClick, disabled }) {
   return (
-    <div className="row">
-      <p className="col-xs-3 col-xs-offset-9 array-item-add text-right">
-        <IconBtn
-          type="info"
-          icon="plus"
-          className="btn-add col-xs-12"
-          tabIndex="0"
-          onClick={onClick}
-          disabled={disabled}
-        />
-      </p>
-    </div>
+    <IconBtn
+      type="info"
+      icon="plus"
+      className="btn btn-link d-inline-block pt-0"
+      tabIndex="0"
+      onClick={onClick}
+      disabled={disabled}
+    />
   );
 }
 

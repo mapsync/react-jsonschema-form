@@ -5,21 +5,13 @@ function DescriptionField(props) {
   const { id, description } = props;
   if (!description) {
     // See #312: Ensure compatibility with old versions of React.
-    return <div />;
+    return <span />;
   }
-  if (typeof description === "string") {
-    return (
-      <p id={id} className="field-description">
-        {description}
-      </p>
-    );
-  } else {
-    return (
-      <div id={id} className="field-description">
-        {description}
-      </div>
-    );
-  }
+  return (
+    <span className="chip tooltip tooltip-right" data-tooltip={description}>
+      <i className="icon icon-message"></i>
+    </span>
+  );
 }
 
 if (process.env.NODE_ENV !== "production") {

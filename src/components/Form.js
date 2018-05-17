@@ -193,42 +193,32 @@ export default class Form extends Component {
     const _SchemaField = registry.fields.SchemaField;
 
     return (
-      <form
-        className={className ? className : "rjsf"}
-        id={id}
-        name={name}
-        method={method}
-        target={target}
-        action={action}
-        autoComplete={autocomplete}
-        encType={enctype}
-        acceptCharset={acceptcharset}
-        noValidate={noHtml5Validate}
-        onSubmit={this.onSubmit}>
-        {this.renderErrors()}
-        <_SchemaField
-          schema={schema}
-          uiSchema={uiSchema}
-          errorSchema={errorSchema}
-          idSchema={idSchema}
-          idPrefix={idPrefix}
-          formData={formData}
-          onChange={this.onChange}
-          onBlur={this.onBlur}
-          onFocus={this.onFocus}
-          registry={registry}
-          safeRenderCompletion={safeRenderCompletion}
-        />
-        {children ? (
-          children
-        ) : (
-          <p>
-            <button type="submit" className="btn btn-info">
-              Submit
-            </button>
-          </p>
-        )}
-      </form>
+        <form
+          className="rjsf form-horizontal"
+          id={id}
+          name={name}
+          method={method}
+          target={target}
+          action={action}
+          autoComplete={autocomplete}
+          encType={enctype}
+          acceptCharset={acceptcharset}
+          noValidate={noHtml5Validate}
+          onSubmit={this.onSubmit}>
+          <_SchemaField
+            schema={schema}
+            uiSchema={uiSchema}
+            errorSchema={errorSchema}
+            idSchema={idSchema}
+            idPrefix={idPrefix}
+            formData={formData}
+            onChange={this.onChange}
+            onBlur={this.onBlur}
+            onFocus={this.onFocus}
+            registry={registry}
+            safeRenderCompletion={safeRenderCompletion}
+          />
+        </form>
     );
   }
 }

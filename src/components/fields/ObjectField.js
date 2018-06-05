@@ -8,14 +8,32 @@ import {
 } from "../../utils";
 
 function DefaultObjectFieldTemplate(props) {
-  const { TitleField, DescriptionField } = props;
-  return (
+  if (props.title === "section") {
+    return (
+      <details className="accordion" open>
+      <summary className="accordion-header">
+        <i className="icon icon-arrow-right mr-1"></i>
+        {props.description}
+      </summary>
+      <div className="accordion-body">
       <div className="columns">
-        <div className="column col-12 p-1">
-          {props.properties.map(prop => prop.content)}
+          <div className="column col-12 p-1">
+            {props.properties.map(prop => prop.content)}
+          </div>
         </div>
       </div>
-  );
+    </details>
+    )
+  }
+  else {
+    return (
+        <div className="columns">
+          <div className="column col-12 p-1">
+            {props.properties.map(prop => prop.content)}
+          </div>
+        </div>
+    );
+  }
 }
 
 class ObjectField extends Component {

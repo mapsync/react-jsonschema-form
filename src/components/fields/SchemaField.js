@@ -225,7 +225,7 @@ function SchemaFieldRender(props) {
   if (uiSchema["ui:field"]) {
     displayLabel = false;
   }
-console.log(props);
+
   const { __errors, ...fieldErrorSchema } = errorSchema;
 
   // See #439: uiSchema: Don't pass consumed class names to child components

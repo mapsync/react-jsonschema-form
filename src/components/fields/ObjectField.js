@@ -8,12 +8,12 @@ import {
 } from "../../utils";
 
 function DefaultObjectFieldTemplate(props) {
-  if (props.title === "section") {
+  if (props.description === "section") {
     return (
       <details className="accordion" open>
       <summary className="accordion-header">
         <i className="icon icon-arrow-right mr-1"></i>
-        {props.description}
+        {props.title}
       </summary>
       <div className="accordion-body">
       <div className="columns">

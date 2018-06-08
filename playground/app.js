@@ -455,6 +455,7 @@ class App extends Component {
         <div className="col-sm-5">
           {this.state.form && (
             <Form
+              id="myform"
               ArrayFieldTemplate={ArrayFieldTemplate}
               ObjectFieldTemplate={ObjectFieldTemplate}
               liveValidate={liveValidate}
@@ -475,21 +476,9 @@ class App extends Component {
               }
               transformErrors={transformErrors}
               onError={log("errors")}>
-              <div className="row">
-                <div className="col-sm-3">
-                  <button className="btn btn-primary" type="submit">
-                    Submit
-                  </button>
-                </div>
-                <div className="col-sm-9 text-right">
-                  <CopyLink
-                    shareURL={this.state.shareURL}
-                    onShare={this.onShare}
-                  />
-                </div>
-              </div>
             </Form>
           )}
+          <input type="submit" form="myform" />
         </div>
       </div>
     );

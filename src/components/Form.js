@@ -218,6 +218,11 @@ export default class Form extends Component {
             registry={registry}
             safeRenderCompletion={safeRenderCompletion}
           />
+          {children ? (
+            children
+          ) : (
+            <button type="submit" className="d-none" />
+          )}
         </form>
     );
   }

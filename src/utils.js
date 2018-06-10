@@ -183,8 +183,12 @@ export function getDefaultFormState(_schema, formData, definitions = {}) {
     return defaults;
   }
   if (isObject(formData)) {
+    var data = {};
+    Object.keys(defaults).forEach(function(key,index) {
+      data[key] = formData[key];
+    });
     // Override schema defaults with form data.
-    return mergeObjects(defaults, formData);
+    return mergeObjects(defaults, data);
   }
   return formData || defaults;
 }

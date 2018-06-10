@@ -455,7 +455,6 @@ class App extends Component {
         <div className="col-sm-5">
           {this.state.form && (
             <Form
-              id="myform"
               ArrayFieldTemplate={ArrayFieldTemplate}
               ObjectFieldTemplate={ObjectFieldTemplate}
               liveValidate={liveValidate}
@@ -478,7 +477,6 @@ class App extends Component {
               onError={log("errors")}>
             </Form>
           )}
-          <input type="submit" form="myform" />
         </div>
       </div>
     );

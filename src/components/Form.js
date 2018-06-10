@@ -221,7 +221,11 @@ export default class Form extends Component {
           {children ? (
             children
           ) : (
-            <button type="submit" className="d-none" />
+            <p>
+              <button type="submit" className="btn">
+                Submit
+              </button>
+            </p>
           )}
         </form>
     );

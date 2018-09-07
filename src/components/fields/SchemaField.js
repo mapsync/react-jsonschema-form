@@ -196,6 +196,7 @@ function SchemaFieldRender(props) {
     toIdSchema(schema, null, definitions, formData, idPrefix),
     idSchema
   );
+  console.log(idSchema);
   const FieldComponent = getFieldComponent(schema, uiSchema, idSchema, fields);
   const { DescriptionField } = fields;
   const disabled = Boolean(props.disabled || uiSchema["ui:disabled"]);

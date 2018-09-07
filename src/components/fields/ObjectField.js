@@ -107,16 +107,12 @@ class ObjectField extends Component {
 
     const Template = registry.ObjectFieldTemplate || DefaultObjectFieldTemplate;
 
-
     const templateProps = {
       title: uiSchema["ui:title"] || title,
       description,
       TitleField,
       DescriptionField,
       properties: orderedProperties.map(name => {
-        var formDataObj = formData[name];
-        if (schema.properties[name].description === "section")
-          formDataObj = formData;
         return {
           content: (
             <SchemaField
@@ -128,7 +124,7 @@ class ObjectField extends Component {
               errorSchema={errorSchema[name]}
               idSchema={idSchema[name]}
               idPrefix={idPrefix}
-              formData={formDataObj}
+              formData={formData[name]}
               onChange={this.onPropertyChange(name)}
               onBlur={onBlur}
               onFocus={onFocus}

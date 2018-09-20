@@ -1,5 +1,5 @@
 import React from "react";
-import "setimmediate";
+import setImmediate from 'setimmediate';
 import validateFormData from "./validate";
 
 const widgetMap = {
